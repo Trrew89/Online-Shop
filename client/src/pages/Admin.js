@@ -1,11 +1,12 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 
 const Admin = () => {
     console.log(1);
     return (
-        <div>
-           Admin 
-        </div>
+        <Container>
+            
+        </Container>
     );
 };
 
