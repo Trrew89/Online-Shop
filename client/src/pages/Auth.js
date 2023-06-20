@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Container, Form, Row } from 'react-bootstrap';
 import { NavLink, useLocation } from 'react-router-dom';
 import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
+import { login, registration } from '../http/userAPI';
 
 const Auth = () => {
     const location = useLocation();
     const isLogin = location.pathname === LOGIN_ROUTE
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+
+    const click = async () => {
+        if(isLogin) {
+            const response = await login();
+        } else {
+            const response = await registration(email, password);
+            console.log(response);
+        }
+  
+    }
+
     return (
         <Container 
             className='d-flex justify-content-center align-items-center'
@@ -17,10 +31,14 @@ const Auth = () => {
                     <Form.Control
                         className='mt-3'
                         placeholder='Enter your email...'
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                     />
                     <Form.Control
                         className='mt-3'
                         placeholder='Enter your password...'
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
                     />
                     <Row className='d-flex justify-content-between mt-3'>
                         {isLogin ? 
@@ -34,9 +52,11 @@ const Auth = () => {
                         }
                     </Row>
                     <Button 
-                            className='align-self-end' 
-                            variant={'outline-success'}>
-                            {isLogin ? 'Login' : 'Registration'}
+                        className='align-self-end' 
+                        variant={'outline-success'}
+                        onClick={click}
+                    >
+                        {isLogin ? 'Login' : 'Registration'}
                     </Button>
                 </Form>
             </Card>
